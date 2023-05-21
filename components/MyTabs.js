@@ -5,10 +5,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { NativeBaseProvider, Center, StatusBar } from "native-base";
 
 import { Provider } from "react-redux";
-import { store } from "./store";
+
 import HomePage from "./TabPages.js/HomePage";
 import ShoppingPage from "./TabPages.js/ShoppingPage";
 import InfoPage from "./TabPages.js/InfoPage";
+import { store } from "../store";
 
 const Tab = createMaterialBottomTabNavigator();
 

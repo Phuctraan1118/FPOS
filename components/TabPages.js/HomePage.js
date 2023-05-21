@@ -15,7 +15,20 @@ import { Feather } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  configureFonts,
+  MD3LightTheme,
+  PaperProvider,
+} from "react-native-paper";
 
+const fontConfig = {
+  fontFamily: "NotoSans",
+};
+
+const theme = {
+  ...MD3LightTheme,
+  fonts: configureFonts({ config: fontConfig }),
+};
 function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
@@ -93,6 +106,9 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 50,
     width: "70%",
+    fontStyle: "italic",
+
+    fontFamily: "Helvetica",
   },
   btn: {
     width: "20%",
