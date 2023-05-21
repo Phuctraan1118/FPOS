@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import React from "react";
 import BannerCodeScanner from "../BannerCodeScanner";
 import {
@@ -20,9 +20,13 @@ import {
   MD3LightTheme,
   PaperProvider,
 } from "react-native-paper";
+import Category from "./Category";
 
 const fontConfig = {
   fontFamily: "NotoSans",
+};
+const image = {
+  uri: "https://scontent.fvca1-1.fna.fbcdn.net/v/t1.15752-9/346104659_775955203919344_5780054629775945075_n.png?_nc_cat=105&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GKxszT18zQIAX9B2tKR&_nc_ht=scontent.fvca1-1.fna&oh=03_AdQUFrziig1tgvGJ153iHzmrgzNdoe3zFy0X0xHbowueyw&oe=6491300C",
 };
 
 const theme = {
@@ -31,46 +35,48 @@ const theme = {
 };
 function HomeScreen({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Box
-        style={{
-          paddingTop: 40,
-          paddingLeft: 20,
-          paddingRight: 20,
-          paddingBottom: 30,
-        }}
-      >
+    <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+      <View style={styles.container}>
+        <Box
+          style={{
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingBottom: 30,
+          }}
+        >
+          <Stack space={3} alignItems="center">
+            <HStack space={3} alignItems="center">
+              <Text style={styles.txt}>Find goods quickly</Text>
+
+              <Button style={styles.btn}>
+                <Feather name="bell" size={20} color="black" />
+              </Button>
+            </HStack>
+          </Stack>
+        </Box>
+
         <Stack space={3} alignItems="center">
           <HStack space={3} alignItems="center">
-            <Text style={styles.txt}>Find goods quickly</Text>
-
-            <Button style={styles.btn}>
-              <Feather name="bell" size={24} color="black" />
+            <View style={styles.input}>
+              <Input
+                variant="rounded"
+                placeholder="What kind of products are you 
+          looking for?"
+                h="10"
+                style={{ fontSize: 20 }}
+              />
+            </View>
+            <Button
+              onPress={() => navigation.navigate("Scan")}
+              style={styles.btn2}
+            >
+              <AntDesign name="filter" size={20} color="black" />
             </Button>
           </HStack>
         </Stack>
-      </Box>
-
-      <Stack space={3} alignItems="center">
-        <HStack space={3} alignItems="center">
-          <View style={styles.input}>
-            <Input
-              variant="rounded"
-              placeholder="What kind of products are you 
-          looking for?"
-              h="10"
-              style={{ fontSize: 20 }}
-            />
-          </View>
-          <Button
-            onPress={() => navigation.navigate("Scan")}
-            style={styles.btn2}
-          >
-            <AntDesign name="filter" size={20} color="black" />
-          </Button>
-        </HStack>
-      </Stack>
-    </View>
+        <Category />
+      </View>
+    </ImageBackground>
   );
 }
 function ScanScreen({ navigation }) {
@@ -101,17 +107,21 @@ export default HomePage;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
   },
   txt: {
-    fontSize: 50,
-    width: "70%",
+    fontSize: 40,
+    width: "80%",
     fontStyle: "italic",
 
     fontFamily: "Helvetica",
   },
+  image: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "white",
+  },
   btn: {
-    width: "20%",
+    width: "15%",
     shadowOpacity: 0.3,
     backgroundColor: "white",
     borderRadius: "35px",
@@ -124,5 +134,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     backgroundColor: "white",
     borderRadius: "20px",
+  },
+  category: {
+    fontSize: "20px",
+    paddingLeft: 20,
+    paddingTop: 20,
   },
 });
