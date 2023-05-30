@@ -18,8 +18,9 @@ import {
   Stack,
   VStack,
 } from "native-base";
-
-const Category = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { productsSlice } from "../../store/productsSlice";
+const Category = ({ navigation }) => {
   const data = [
     {
       id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
@@ -42,7 +43,8 @@ const Category = () => {
       fullName: "Anci Barroco",
       timeStamp: "6:22 PM",
       recentText: "Good Day!",
-      avatarUrl: "https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg",
+      avatarUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
     },
     {
       id: "68694a0f-3da1-431f-bd56-142371e29d72",
@@ -61,33 +63,35 @@ const Category = () => {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU",
     },
   ];
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products);
   return (
-    <Box style={{ width: "100%" }}>
-      <Heading fontSize="xl" p="4" pb="3">
-        Category
-      </Heading>
+    <Box>
       <FlatList
-        data={data}
+        data={products}
         renderItem={({ item }) => (
-          <TouchableOpacity style={{ width: "50%" }}>
-            <Box py="2" pr={3}>
-              <HStack>
-                <Stack direction="column">
-                  <Box>
-                    <Center h="40" w="100%" shadow={3}>
-                      <Image
-                        source={{ uri: item.avatarUrl }}
-                        style={styles.image}
-                        alt="image"
-                      />
-                    </Center>
+          <Box style={styles.itemContainer}>
+            <TouchableOpacity>
+              <Center shadow={4}>
+                <Pressable
+                  onPress={() => {
+                    // update selected product
+                    dispatch(productsSlice.actions.setSelectedProduct(item.id));
 
-                    <Center pt={3}>{item.fullName}</Center>
-                  </Box>
-                </Stack>
-              </HStack>
-            </Box>
-          </TouchableOpacity>
+                    navigation.navigate("Product Details");
+                  }}
+                >
+                  <Image
+                    source={{ uri: item.image }}
+                    alt={item.name}
+                    style={styles.image}
+                  />
+                  <Text style={[styles.name]}>{item.name}</Text>
+                  <Text style={[styles.price]}>${item.price}</Text>
+                </Pressable>
+              </Center>
+            </TouchableOpacity>
+          </Box>
         )}
         numColumns={2}
       />
@@ -95,10 +99,29 @@ const Category = () => {
   );
 };
 const styles = StyleSheet.create({
+  // itemBox: {
+  //   width: "100%",
+  // },
+  itemContainer: {
+    padding: 5,
+    paddingTop: 40,
+    width: "50%",
+    height: "50%",
+  },
   image: {
     width: "100%",
     aspectRatio: 1,
     borderRadius: "20px",
+  },
+  name: {
+    textAlign: "center",
+    fontSize: 28,
+    marginTop: 20,
+  },
+  price: {
+    textAlign: "center",
+    fontSize: 20,
+    marginBottom: 20,
   },
 });
 

@@ -9,6 +9,7 @@ import {
   Icon,
   Input,
   NativeBaseProvider,
+  ScrollView,
   Stack,
 } from "native-base";
 import { Feather } from "@expo/vector-icons";
@@ -21,6 +22,8 @@ import {
   PaperProvider,
 } from "react-native-paper";
 import Category from "./Category";
+import Notification from "./Notification";
+import ProductDetailsScreen from "./ProductDetailsScreen";
 
 const fontConfig = {
   fontFamily: "NotoSans",
@@ -36,46 +39,51 @@ const theme = {
 function HomeScreen({ navigation }) {
   return (
     <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-      <View style={styles.container}>
-        <Box
-          style={{
-            paddingLeft: 20,
-            paddingRight: 20,
-            paddingBottom: 30,
-          }}
-        >
+      <ScrollView>
+        <View style={styles.container}>
+          <Box
+            style={{
+              paddingLeft: 20,
+              paddingRight: 20,
+              paddingBottom: 30,
+            }}
+          >
+            <Stack space={3} alignItems="center">
+              <HStack space={3} alignItems="center">
+                <Text style={styles.txt}>Find goods quickly</Text>
+
+                <Button
+                  onPress={() => navigation.navigate("Notifications")}
+                  style={styles.btn}
+                >
+                  <Feather name="bell" size={20} color="black" />
+                </Button>
+              </HStack>
+            </Stack>
+          </Box>
+
           <Stack space={3} alignItems="center">
             <HStack space={3} alignItems="center">
-              <Text style={styles.txt}>Find goods quickly</Text>
-
-              <Button style={styles.btn}>
-                <Feather name="bell" size={20} color="black" />
+              <View style={styles.input}>
+                <Input
+                  variant="rounded"
+                  placeholder="What kind of products are you 
+          looking for?"
+                  h="10"
+                  style={{ fontSize: 20 }}
+                />
+              </View>
+              <Button
+                onPress={() => navigation.navigate("Scan")}
+                style={styles.btn2}
+              >
+                <AntDesign name="filter" size={20} color="black" />
               </Button>
             </HStack>
           </Stack>
-        </Box>
-
-        <Stack space={3} alignItems="center">
-          <HStack space={3} alignItems="center">
-            <View style={styles.input}>
-              <Input
-                variant="rounded"
-                placeholder="What kind of products are you 
-          looking for?"
-                h="10"
-                style={{ fontSize: 20 }}
-              />
-            </View>
-            <Button
-              onPress={() => navigation.navigate("Scan")}
-              style={styles.btn2}
-            >
-              <AntDesign name="filter" size={20} color="black" />
-            </Button>
-          </HStack>
-        </Stack>
-        <Category />
-      </View>
+          <Category navigation={navigation} />
+        </View>
+      </ScrollView>
     </ImageBackground>
   );
 }
@@ -98,6 +106,16 @@ const HomePage = () => {
           animationEnabled={true}
           component={ScanScreen}
         />
+        <StackTab.Screen
+          name="Notifications"
+          animationEnabled={true}
+          component={Notification}
+        />
+        <StackTab.Screen
+          name="Product Details"
+          animationEnabled={true}
+          component={ProductDetailsScreen}
+        />
       </StackTab.Navigator>
     </NavigationContainer>
   );
@@ -111,9 +129,6 @@ const styles = StyleSheet.create({
   txt: {
     fontSize: 40,
     width: "80%",
-    fontStyle: "italic",
-
-    fontFamily: "Helvetica",
   },
   image: {
     flex: 1,
